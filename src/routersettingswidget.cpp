@@ -338,13 +338,13 @@ RouterSettingsWidget::RouterSettingsWidget(QWidget *parent)
 
     setStyleSheet(R"QSS(
         QLabel#settingsValue {
-            color: #E6EDF8;
+            color: #D9E8F1;
             font-family: "Consolas";
             font-size: 13px;
         }
         QLabel#settingsHero {
-            color: #FFFFFF;
-            font-size: 26px;
+            color: #F1F7FB;
+            font-size: 24px;
             font-weight: 800;
         }
         QPushButton#miniButton {
@@ -354,7 +354,7 @@ RouterSettingsWidget::RouterSettingsWidget(QWidget *parent)
         QTextEdit#routerRawSettings {
             font-family: "Consolas";
             font-size: 12px;
-            color: #9FB3CC;
+            color: #9BB5C7;
         }
     )QSS");
 
@@ -375,8 +375,8 @@ RouterSettingsWidget::RouterSettingsWidget(QWidget *parent)
     content->setStyleSheet("QWidget#routerSettingsContent { background: transparent; }");
 
     QVBoxLayout *mainLayout = new QVBoxLayout(content);
-    mainLayout->setContentsMargins(0, 4, 8, 18);
-    mainLayout->setSpacing(14);
+    mainLayout->setContentsMargins(0, 4, 10, 22);
+    mainLayout->setSpacing(12);
 
     // ---------------- STATUS ----------------
 
