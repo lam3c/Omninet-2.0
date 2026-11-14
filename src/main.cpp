@@ -1783,6 +1783,10 @@ private:
                 border-left: 3px solid #38DDF0; font-weight: 800;
             }
 
+            QLabel#commandEyebrow {
+                color: #45CFE0; font-size: 9px; font-weight: 800;
+                letter-spacing: 1.6px;
+            }
             QLabel#pageTitle, QLabel#commandHeading {
                 color: #F1F7FB; font-size: 25px; font-weight: 800;
             }
