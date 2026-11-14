@@ -274,88 +274,110 @@ private:
     {
         auto *central = new QWidget(this);
         central->setObjectName("centralArea");
-
         setCentralWidget(central);
 
         auto *mainLayout = new QHBoxLayout(central);
         mainLayout->setContentsMargins(0, 0, 0, 0);
         mainLayout->setSpacing(0);
 
-        // Sidebar
-
         sidebar = new QWidget;
         sidebar->setObjectName("sidebar");
-        sidebar->setFixedWidth(230);
+        sidebar->setFixedWidth(246);
 
         auto *sidebarLayout = new QVBoxLayout(sidebar);
-        sidebarLayout->setContentsMargins(17, 25, 17, 20);
-        sidebarLayout->setSpacing(8);
+        sidebarLayout->setContentsMargins(19, 24, 19, 18);
+        sidebarLayout->setSpacing(7);
+
+        auto *brandRow = new QHBoxLayout;
+        brandRow->setSpacing(10);
+
+        auto *brandMark = new QLabel("◈");
+        brandMark->setObjectName("brandMark");
+        brandMark->setAlignment(Qt::AlignCenter);
+        brandMark->setFixedSize(39, 39);
+
+        auto *brandText = new QVBoxLayout;
+        brandText->setSpacing(1);
 
         auto *brand = new QLabel("OmniNet");
         brand->setObjectName("brand");
 
-        auto *brandSubtitle = new QLabel(
-            "NETWORK COMMAND CENTER"
-            );
+        auto *brandSubtitle = new QLabel("NETWORK INTELLIGENCE");
         brandSubtitle->setObjectName("brandSubtitle");
 
-        sidebarLayout->addWidget(brand);
-        sidebarLayout->addWidget(brandSubtitle);
-        sidebarLayout->addSpacing(25);
+        brandText->addWidget(brand);
+        brandText->addWidget(brandSubtitle);
+        brandRow->addWidget(brandMark);
+        brandRow->addLayout(brandText);
+        brandRow->addStretch();
+
+        sidebarLayout->addLayout(brandRow);
+        sidebarLayout->addSpacing(29);
 
         auto *section = new QLabel("WORKSPACE");
         section->setObjectName("sidebarSection");
-
         sidebarLayout->addWidget(section);
         sidebarLayout->addSpacing(5);
 
-        sidebarLayout->addWidget(
-            createNavigationButton("Command Center", 0)
-            );
-
-        sidebarLayout->addWidget(
-            createNavigationButton("Router Settings", 1)
-            );
-
-        sidebarLayout->addWidget(
-            createNavigationButton("Connected Devices", 2)
-            );
-
-        sidebarLayout->addWidget(
-            createNavigationButton("Router Profiles", 3)
-            );
-
-        sidebarLayout->addWidget(
-            createNavigationButton("Router Capture", 4)
-            );
-
-        sidebarLayout->addWidget(
-            createNavigationButton("Live Monitor", 5)
-            );
-
-        sidebarLayout->addWidget(
-            createNavigationButton("Wireless Intelligence", 6)
-            );
-
-        sidebarLayout->addWidget(
-            createNavigationButton("Router Configuration Lab", 7)
-            );
+        sidebarLayout->addWidget(createNavigationButton("◈   Command Center", 0));
+        sidebarLayout->addWidget(createNavigationButton("⌘   Router Settings", 1));
+        sidebarLayout->addWidget(createNavigationButton("▦   Connected Devices", 2));
+        sidebarLayout->addWidget(createNavigationButton("▣   Router Profiles", 3));
+        sidebarLayout->addWidget(createNavigationButton("◉   Router Capture", 4));
+        sidebarLayout->addWidget(createNavigationButton("⌁   Live Monitor", 5));
+        sidebarLayout->addWidget(createNavigationButton("⌖   Wireless Intelligence", 6));
+        sidebarLayout->addWidget(createNavigationButton("⚙   Configuration Lab", 7));
 
         sidebarLayout->addStretch();
 
         auto *divider = new QFrame;
         divider->setObjectName("sidebarDivider");
         divider->setFixedHeight(1);
-
         sidebarLayout->addWidget(divider);
 
-        auto *connectionLabel = new QLabel("OmniNet is ready");
+        auto *footerTitle = new QLabel("LOCAL OPERATIONS");
+        footerTitle->setObjectName("sidebarFooterTitle");
+
+        auto *connectionLabel = new QLabel("Ready for network discovery");
         connectionLabel->setObjectName("connectionStatus");
         connectionLabel->setWordWrap(true);
 
+        sidebarLayout->addSpacing(10);
+        sidebarLayout->addWidget(footerTitle);
         sidebarLayout->addWidget(connectionLabel);
 
-        // Main page stack
+        auto *workspace = new QWidget;
+        workspace->setObjectName("workspace");
+
+        auto *workspaceLayout = new QVBoxLayout(workspace);
+        workspaceLayout->setContentsMargins(0, 0, 0, 0);
+        workspaceLayout->setSpacing(0);
+
+        auto *topBar = new QFrame;
+        topBar->setObjectName("topBar");
+        topBar->setFixedHeight(68);
+
+        auto *topBarLayout = new QHBoxLayout(topBar);
+        topBarLayout->setContentsMargins(28, 10, 28, 10);
+
+        auto *contextBox = new QVBoxLayout;
+        contextBox->setSpacing(2);
+
+        auto *contextTitle = new QLabel("NETWORK INTELLIGENCE");
+        contextTitle->setObjectName("topBarTitle");
+
+        auto *contextSubtitle = new QLabel("OmniNet  /  Operations workspace");
+        contextSubtitle->setObjectName("topBarSubtitle");
+
+        contextBox->addWidget(contextTitle);
+        contextBox->addWidget(contextSubtitle);
+
+        auto *versionLabel = new QLabel("DESKTOP CLIENT   •   v1.4.0");
+        versionLabel->setObjectName("topBarMeta");
+
+        topBarLayout->addLayout(contextBox);
+        topBarLayout->addStretch();
+        topBarLayout->addWidget(versionLabel);
 
         pages = new QStackedWidget;
         pages->setObjectName("pageStack");
@@ -369,11 +391,13 @@ private:
         pages->addWidget(buildWirelessPage());
         pages->addWidget(buildRouterConfigPage());
 
+        workspaceLayout->addWidget(topBar);
+        workspaceLayout->addWidget(pages, 1);
+
         mainLayout->addWidget(sidebar);
-        mainLayout->addWidget(pages, 1);
+        mainLayout->addWidget(workspace, 1);
 
         setCurrentPage(0);
-
         statusBar()->showMessage("OmniNet is ready");
     }
 
@@ -1689,250 +1713,158 @@ private:
     void applyStyle()
     {
         setStyleSheet(R"QSS(
-
-            * {
-                font-family: "Segoe UI";
-                font-size: 13px;
+            * { font-family: "Segoe UI"; font-size: 13px; outline: none; }
+            QMainWindow, QWidget#centralArea, QWidget#workspace, QWidget#pageStack {
+                background: #07111E;
             }
-
-            QMainWindow,
-            QWidget#centralArea,
-            QWidget#pageStack {
-                background: #0A0E14;
-            }
-
-            QWidget {
-                color: #C9D4E5;
-            }
-
-            QLabel {
-                background: transparent;
-            }
+            QWidget { color: #D6E2F0; }
+            QLabel { background: transparent; }
 
             QWidget#sidebar {
-                background: #0F1520;
-                border-right: 1px solid #1B2638;
+                background: #091522;
+                border-right: 1px solid #1A3043;
             }
-
-            QLabel#brand {
-                color: #FFFFFF;
-                font-size: 27px;
-                font-weight: 900;
+            QLabel#brandMark {
+                color: #07111E; background: #38DDF0; border-radius: 11px;
+                font-size: 24px; font-weight: 900;
             }
-
-            QLabel#brandSubtitle,
-            QLabel#sidebarSection {
-                color: #64748B;
-                font-size: 10px;
-                font-weight: 700;
+            QLabel#brand { color: #F2F8FC; font-size: 23px; font-weight: 800; }
+            QLabel#brandSubtitle {
+                color: #6D91A7; font-size: 8px; font-weight: 800; letter-spacing: 1.3px;
             }
-
-            QLabel#sidebarSection {
-                padding-left: 9px;
+            QLabel#sidebarSection, QLabel#sidebarFooterTitle {
+                color: #58758A; font-size: 9px; font-weight: 800;
+                letter-spacing: 1.5px; padding-left: 9px;
             }
-
-            QFrame#sidebarDivider {
-                background: #1B2638;
-                border: none;
-            }
-
+            QFrame#sidebarDivider { background: #1A3043; border: none; }
             QLabel#connectionStatus {
-                color: #7C8BA3;
-                padding: 10px 4px;
-                font-size: 11px;
+                color: #8BA4B7; padding: 7px 9px 3px 9px; font-size: 10px;
+            }
+
+            QFrame#topBar { background: #0A1725; border-bottom: 1px solid #1A3043; }
+            QLabel#topBarTitle {
+                color: #CDEAF2; font-size: 10px; font-weight: 800; letter-spacing: 1.7px;
+            }
+            QLabel#topBarSubtitle { color: #6F879B; font-size: 10px; }
+            QLabel#topBarMeta {
+                color: #6D91A7; background: #102438; border: 1px solid #1C3A50;
+                border-radius: 6px; padding: 7px 10px; font-size: 9px;
+                font-weight: 800; letter-spacing: 0.8px;
             }
 
             QPushButton {
-                background: #172131;
-                color: #D5DEEC;
-                border: 1px solid #2A3950;
-                border-radius: 6px;
-                padding: 9px 14px;
+                background: #14283A; color: #D5E5F0; border: 1px solid #25445A;
+                border-radius: 7px; padding: 9px 14px; font-weight: 600;
+            }
+            QPushButton:hover { background: #1A354A; border-color: #34718A; }
+            QPushButton:pressed { background: #102438; }
+            QPushButton:disabled {
+                color: #52697B; background: #0D1B29; border-color: #1B3042;
+            }
+            QPushButton#primaryButton {
+                background: #38DDF0; color: #06202A; border: 1px solid #38DDF0;
+                font-weight: 800;
+            }
+            QPushButton#primaryButton:hover {
+                background: #76EEFA; border-color: #76EEFA;
+            }
+            QPushButton#primaryButton:pressed { background: #22BFD5; }
+            QPushButton#navigationButton {
+                background: transparent; color: #8BA3B6; text-align: left;
+                border: 1px solid transparent; border-left: 3px solid transparent;
+                border-radius: 7px; padding: 11px 10px; font-size: 11px;
                 font-weight: 600;
             }
-
-            QPushButton:hover {
-                background: #1D2A3E;
-                border-color: #3B5173;
-            }
-
-            QPushButton:disabled {
-                color: #54627A;
-                background: #0F1520;
-                border-color: #1B2638;
-            }
-
-            QPushButton#primaryButton {
-                background: #22D3EE;
-                color: #04222A;
-                border: 1px solid #22D3EE;
-                font-weight: 800;
-            }
-
-            QPushButton#primaryButton:hover {
-                background: #67E8F9;
-            }
-
-            QPushButton#navigationButton {
-                background: transparent;
-                color: #8392AA;
-                text-align: left;
-                border: none;
-                border-left: 3px solid transparent;
-                padding: 11px 13px;
-            }
-
             QPushButton#navigationButton:hover {
-                background: #151F30;
-                color: #E6EDF8;
+                background: #102438; color: #E4F4F8; border-color: #19384B;
             }
-
             QPushButton#navigationButton:checked {
-                background: rgba(34, 211, 238, 28);
-                color: #22D3EE;
-                border-left: 3px solid #22D3EE;
-                font-weight: 800;
+                background: #103044; color: #55E3F2; border: 1px solid #1D5367;
+                border-left: 3px solid #38DDF0; font-weight: 800;
             }
 
-            QLabel#pageTitle {
-                color: #FFFFFF;
-                font-size: 26px;
-                font-weight: 900;
+            QLabel#pageTitle, QLabel#commandHeading {
+                color: #F1F7FB; font-size: 25px; font-weight: 800;
             }
-
-            QLabel#pageDescription {
-                color: #8291A8;
-                font-size: 12px;
+            QLabel#pageDescription, QLabel#commandSubtitle {
+                color: #8AA1B4; font-size: 11px;
             }
+            QLabel#sectionTitle { color: #DCEAF3; font-size: 14px; font-weight: 750; }
+            QLabel#bodyText { color: #A2B5C5; font-size: 11px; }
+            QLabel#mutedText { color: #7891A5; font-size: 10px; }
 
-            QLabel#sectionTitle {
-                color: #E6EDF8;
-                font-size: 15px;
-                font-weight: 800;
-            }
-
-            QLabel#bodyText {
-                color: #9AA8BF;
-            }
-
-            QLabel#mutedText {
-                color: #6B7A93;
-                font-size: 11px;
-            }
-
-            QFrame#card,
-            QFrame#commandMetricCard,
-            QFrame#commandPanel,
+            QFrame#card, QFrame#commandMetricCard, QFrame#commandPanel,
             QFrame#wirelessCard {
-                background: #121A27;
-                border: 1px solid #26364D;
-                border-radius: 8px;
+                background: #0D1D2C; border: 1px solid #1D394D; border-radius: 11px;
             }
-
-            QLabel#commandHeading {
-                color: #FFFFFF;
-                font-size: 27px;
-                font-weight: 900;
+            QFrame#card:hover, QFrame#commandMetricCard:hover,
+            QFrame#commandPanel:hover, QFrame#wirelessCard:hover {
+                border-color: #2A6072;
             }
-
-            QLabel#commandSubtitle {
-                color: #8291A8;
-                font-size: 12px;
+            QLabel#commandMetricTitle, QLabel#commandPanelTitle {
+                color: #83A2B5; font-size: 9px; font-weight: 800; letter-spacing: 1px;
             }
-
-            QLabel#commandMetricTitle,
-            QLabel#commandPanelTitle {
-                color: #8293AC;
-                font-size: 10px;
-                font-weight: 800;
-            }
-
             QLabel#commandMetricValue {
-                color: #22D3EE;
-                font-size: 25px;
-                font-weight: 900;
+                color: #43DDED; font-size: 26px; font-weight: 800;
             }
-
-            QLabel#commandMetricNote,
-            QLabel#commandPanelText {
-                color: #8493AA;
-                font-size: 11px;
+            QLabel#commandMetricNote, QLabel#commandPanelText {
+                color: #91A7B8; font-size: 10px;
             }
 
             QTableWidget {
-                background: #0F1622;
-                alternate-background-color: #121A27;
-                color: #C9D4E5;
-                border: 1px solid #26364D;
-                border-radius: 6px;
-                gridline-color: transparent;
-                selection-background-color: rgba(34, 211, 238, 35);
-                selection-color: #22D3EE;
+                background: #091724; alternate-background-color: #0D1D2C;
+                color: #C9DCE8; border: 1px solid #1D394D; border-radius: 8px;
+                gridline-color: transparent; selection-background-color: #16465A;
+                selection-color: #70EAF5; font-size: 11px;
             }
-
-            QTableWidget::item {
-                padding: 8px;
-                border: none;
-            }
-
+            QTableWidget::item { padding: 9px; border: none; }
+            QTableWidget::item:hover { background: #112B3C; }
             QHeaderView::section {
-                background: #0F1520;
-                color: #8293AC;
-                border: none;
-                border-bottom: 1px solid #26364D;
-                padding: 10px;
-                font-size: 10px;
-                font-weight: 800;
+                background: #102438; color: #82A4B8; border: none;
+                border-bottom: 1px solid #24465A; padding: 11px 9px;
+                font-size: 9px; font-weight: 800; letter-spacing: 0.7px;
             }
 
-            QLineEdit,
-            QComboBox,
-            QSpinBox,
-            QTextEdit,
-            QPlainTextEdit {
-                background: #0A0E14;
-                color: #D5DEEC;
-                border: 1px solid #2A3950;
-                border-radius: 6px;
-                padding: 8px;
+            QLineEdit, QComboBox, QSpinBox, QTextEdit, QPlainTextEdit {
+                background: #091724; color: #D9E8F1; border: 1px solid #25445A;
+                border-radius: 7px; padding: 9px 10px;
+                selection-background-color: #176176;
             }
-
-            QCheckBox {
-                color: #C9D4E5;
-                spacing: 8px;
+            QLineEdit:focus, QComboBox:focus, QSpinBox:focus,
+            QTextEdit:focus, QPlainTextEdit:focus {
+                border: 1px solid #38DDF0; background: #0B1D2C;
             }
+            QCheckBox { color: #B5C9D7; spacing: 8px; }
+            QCheckBox::indicator {
+                width: 15px; height: 15px; border: 1px solid #3A5B70;
+                border-radius: 4px; background: #0A1A28;
+            }
+            QCheckBox::indicator:checked { background: #38DDF0; border-color: #38DDF0; }
 
             QProgressBar {
-                background: #1B2638;
-                border: none;
-                border-radius: 3px;
-                text-align: center;
+                background: #173044; border: none; border-radius: 4px;
+                text-align: center; color: #DDF8FA; min-height: 7px;
             }
-
-            QProgressBar::chunk {
-                background: #22D3EE;
-                border-radius: 3px;
-            }
-
+            QProgressBar::chunk { background: #38DDF0; border-radius: 4px; }
             QStatusBar {
-                background: #0F1520;
-                color: #8291A8;
-                border-top: 1px solid #1B2638;
-                font-size: 11px;
+                background: #091522; color: #8BA4B7; border-top: 1px solid #1A3043;
+                font-size: 10px;
             }
-
             QScrollBar:vertical {
-                background: transparent;
-                width: 9px;
+                background: #081522; width: 9px; margin: 0; border: none;
             }
-
             QScrollBar::handle:vertical {
-                background: #2A3950;
-                border-radius: 4px;
-                min-height: 30px;
+                background: #28495E; border-radius: 4px; min-height: 28px;
             }
-
+            QScrollBar::handle:vertical:hover { background: #36748A; }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0; }
+            QToolTip {
+                background: #102438; color: #E4F5FA; border: 1px solid #2C6175;
+                padding: 5px 8px;
+            }
         )QSS");
+    }
+
     }
 };
 
