@@ -57,23 +57,24 @@ QString cardStyle()
 {
     return QStringLiteral(
         "QFrame#wirelessCard {"
-        "background:#121A27;"
-        "border:1px solid #26364D;"
-        "border-radius:9px;"
+        "background:#0D1D2C;"
+        "border:1px solid #1D394D;"
+        "border-radius:11px;"
         "}"
         "QLabel#wirelessTitle {"
-        "color:#8293AC;"
-        "font-size:10px;"
-        "font-weight:700;"
+        "color:#83A2B5;"
+        "font-size:9px;"
+        "font-weight:800;"
+        "letter-spacing:1px;"
         "}"
         "QLabel#wirelessValue {"
-        "color:#22D3EE;"
-        "font-size:20px;"
+        "color:#43DDED;"
+        "font-size:19px;"
         "font-weight:800;"
         "}"
         "QLabel#wirelessDescription {"
-        "color:#8493AA;"
-        "font-size:11px;"
+        "color:#91A7B8;"
+        "font-size:10px;"
         "}"
         );
 }
@@ -152,9 +153,22 @@ void WirelessIntelligenceWidget::buildInterface()
 {
     setStyleSheet(cardStyle());
 
-    auto *root = new QVBoxLayout(this);
-    root->setContentsMargins(28, 24, 28, 24);
-    root->setSpacing(14);
+    auto *outer = new QVBoxLayout(this);
+    outer->setContentsMargins(0, 0, 0, 0);
+    outer->setSpacing(0);
+
+    auto *scroll = new QScrollArea(this);
+    scroll->setWidgetResizable(true);
+    scroll->setFrameShape(QFrame::NoFrame);
+    scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scroll->setObjectName("wirelessScroll");
+
+    auto *content = new QWidget;
+    content->setObjectName("wirelessContent");
+
+    auto *root = new QVBoxLayout(content);
+    root->setContentsMargins(28, 24, 28, 26);
+    root->setSpacing(12);
 
     auto *heading = new QLabel("Wireless Intelligence");
     heading->setStyleSheet(
@@ -406,6 +420,9 @@ void WirelessIntelligenceWidget::buildInterface()
 
     connect(scanButton, &QPushButton::clicked,
             this, &WirelessIntelligenceWidget::scanNetworks);
+
+    scroll->setWidget(content);
+    outer->addWidget(scroll);
 }
 
 void WirelessIntelligenceWidget::setRouterAuthenticated(bool authenticated)
