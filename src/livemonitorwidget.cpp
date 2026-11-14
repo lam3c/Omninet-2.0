@@ -269,8 +269,8 @@ protected:
 
         const QRectF frame = QRectF(rect()).adjusted(0.5, 0.5, -0.5, -0.5);
 
-        painter.setPen(QColor("#1F2B3D"));
-        painter.setBrush(QColor("#0F1622"));
+        painter.setPen(QColor("#1D394D"));
+        painter.setBrush(QColor("#091724"));
         painter.drawRoundedRect(frame, 6, 6);
 
         const QRectF plot = frame.adjusted(70, 12, -14, -24);
@@ -293,17 +293,17 @@ protected:
         {
             const double y = plot.top() + plot.height() * i / 4.0;
 
-            painter.setPen(QPen(QColor("#1B2638"), 1));
+            painter.setPen(QPen(QColor("#24465A"), 1));
             painter.drawLine(QPointF(plot.left(), y), QPointF(plot.right(), y));
 
-            painter.setPen(QColor("#6B7A93"));
+            painter.setPen(QColor("#7891A5"));
             painter.drawText(
                 QRectF(frame.left() + 4, y - 8, plot.left() - frame.left() - 10, 16),
                 Qt::AlignRight | Qt::AlignVCenter,
                 formatSpeed(maxValue * (4 - i) / 4.0));
         }
 
-        painter.setPen(QColor("#6B7A93"));
+        painter.setPen(QColor("#7891A5"));
 
         painter.drawText(
             QRectF(plot.left(), plot.bottom() + 5, 120, 14),
@@ -315,8 +315,8 @@ protected:
             Qt::AlignRight | Qt::AlignVCenter,
             "now");
 
-        drawSeries(painter, plot, ups, maxValue, QColor("#F59E0B"));
-        drawSeries(painter, plot, downs, maxValue, QColor("#22D3EE"));
+        drawSeries(painter, plot, ups, maxValue, QColor("#F5B95C"));
+        drawSeries(painter, plot, downs, maxValue, QColor("#38DDF0"));
     }
 
 private:
@@ -406,12 +406,12 @@ LiveMonitorWidget::LiveMonitorWidget(QWidget *parent)
     outer->addWidget(scroll);
 
     auto *layout = new QVBoxLayout(content);
-    layout->setContentsMargins(0, 0, 12, 0);
-    layout->setSpacing(14);
+    layout->setContentsMargins(0, 0, 10, 0);
+    layout->setSpacing(12);
 
     // ---- Summary cards ----
     auto *cards = new QHBoxLayout;
-    cards->setSpacing(14);
+    cards->setSpacing(12);
 
     cards->addWidget(makeCard("ROUTER DOWNLOAD", downValue, downNote));
     cards->addWidget(makeCard("ROUTER UPLOAD", upValue, upNote));
@@ -440,12 +440,12 @@ LiveMonitorWidget::LiveMonitorWidget(QWidget *parent)
     localGraph = new SpeedGraph;
 
     const QString legend =
-        "<span style='color:#22D3EE'>&#9632; Download</span>"
+        "<span style='color:#38DDF0'>&#9632; Download</span>"
         "&nbsp;&nbsp;&nbsp;"
-        "<span style='color:#F59E0B'>&#9632; Upload</span>";
+        "<span style='color:#F5B95C'>&#9632; Upload</span>";
 
     auto *graphs = new QHBoxLayout;
-    graphs->setSpacing(14);
+    graphs->setSpacing(12);
 
     graphs->addWidget(
         makeGraphCard("Router traffic (all devices) &nbsp; " + legend, routerGraph),
@@ -597,7 +597,7 @@ void LiveMonitorWidget::stop()
 void LiveMonitorWidget::setStatus(const QString &text, bool warning)
 {
     statusLabel->setStyleSheet(
-        warning ? "color: #F59E0B;" : "color: #6B7A93;");
+        warning ? "color: #F5B95C;" : "color: #7891A5;");
 
     statusLabel->setText(text);
 }
