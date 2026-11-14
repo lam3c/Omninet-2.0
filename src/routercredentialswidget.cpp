@@ -17,7 +17,7 @@ RouterCredentialWidget::RouterCredentialWidget(const QUrl &routerUrl,
 {
     setWindowTitle(tr("Router Login"));
     setModal(true);
-    setMinimumWidth(380);
+    setMinimumWidth(420);
 
     auto *heading = new QLabel(tr("Sign in to your router"), this);
     heading->setObjectName("sectionTitle");
@@ -48,7 +48,7 @@ RouterCredentialWidget::RouterCredentialWidget(const QUrl &routerUrl,
     buttons->addWidget(m_loginButton);
 
     auto *layout = new QVBoxLayout(this);
-    layout->setContentsMargins(22, 20, 22, 18);
+    layout->setContentsMargins(26, 24, 26, 22);
     layout->setSpacing(12);
     layout->addWidget(heading);
     layout->addWidget(target);
@@ -144,7 +144,7 @@ void RouterCredentialWidget::setBusy(bool busy)
 
 void RouterCredentialWidget::showStatus(const QString &text, bool isError)
 {
-    m_statusLabel->setStyleSheet(isError ? "color: #c0392b;" : "color: #596579;");
+    m_statusLabel->setStyleSheet(isError ? "color: #FB7185;" : "color: #8BA4B7;");
     m_statusLabel->setText(text);
     m_statusLabel->setVisible(!text.isEmpty());
 }
