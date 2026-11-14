@@ -18,6 +18,7 @@
 #include <QJsonArray>
 #include <QJsonValue>
 #include <QRegularExpression>
+#include <QScrollArea>
 
 #include <cmath>
 #include <cstring>
